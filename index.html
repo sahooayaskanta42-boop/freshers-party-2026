@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Freshers Party 2026 | Registration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-card: rgba(20, 16, 10, 0.85);
+      --gold: #d4af37;
+      --gold-light: #f5e6a3;
+      --gold-dark: #b8860b;
+      --gold-glow: rgba(212, 175, 55, 0.45);
+      --text: #f5f0e6;
+      --muted: #a89f8f;
+      --success: #4ade80;
+      --error: #f87171;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .bg-glow {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(212, 175, 55, 0.18), transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(184, 134, 11, 0.12), transparent 50%),
+        radial-gradient(ellipse 50% 30% at 10% 70%, rgba(212, 175, 55, 0.08), transparent 50%);
+    }
+
+    .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .particle {
+      position: absolute; width: 4px; height: 4px; background: var(--gold);
+      border-radius: 50%; opacity: 0.3; animation: float 12s infinite ease-in-out;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.2; }
+      50% { transform: translateY(-40px) scale(1.3); opacity: 0.5; }
+    }
+
+    .container {
+      position: relative; z-index: 1; max-width: 480px; margin: 0 auto;
+      padding: 2rem 1.25rem 3rem; min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+
+    header { text-align: center; margin-bottom: 2rem; animation: fadeUp 0.8s ease-out; }
+
+    .badge {
+      display: inline-block; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 0.35rem 0.9rem; border-radius: 999px; margin-bottom: 1rem;
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.9rem, 7vw, 2.6rem); font-weight: 700; line-height: 1.15;
+      background: linear-gradient(135deg, #f5e6a3 0%, #d4af37 40%, #f5e6a3 70%, #b8860b 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: shimmer 4s linear infinite; margin-bottom: 0.5rem;
+    }
+    @keyframes shimmer { to { background-position: 200% center; } }
+
+    .subheading { font-size: 1rem; font-weight: 300; color: var(--muted); letter-spacing: 0.05em; }
+    .divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.25rem auto 0; border-radius: 2px;
+    }
+
+    .card {
+      background: var(--bg-card); border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 20px; padding: 1.75rem 1.5rem; backdrop-filter: blur(16px);
+      box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.08), 0 20px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+      animation: fadeUp 0.9s ease-out 0.15s both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-group { margin-bottom: 1.4rem; }
+    label {
+      display: block; font-size: 0.8rem; font-weight: 500; color: var(--gold-light);
+      margin-bottom: 0.45rem; letter-spacing: 0.03em;
+    }
+    label .req { color: var(--gold); margin-left: 2px; }
+
+    input[type="text"] {
+      width: 100%; padding: 0.9rem 1rem; background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px;
+      color: var(--text); font-family: inherit; font-size: 1rem;
+      transition: border-color 0.25s, box-shadow 0.25s; outline: none;
+    }
+    input[type="text"]::placeholder { color: #666; }
+    input[type="text"]:focus {
+      border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-glow);
+    }
+
+    .food-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    .food-card {
+      position: relative; cursor: pointer; border-radius: 14px;
+      border: 1.5px solid rgba(212, 175, 55, 0.25); background: rgba(0,0,0,0.35);
+      padding: 1.1rem 0.75rem; text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); user-select: none;
+    }
+    .food-card:hover { border-color: rgba(212, 175, 55, 0.55); transform: translateY(-2px); }
+    .food-card input { position: absolute; opacity: 0; pointer-events: none; }
+    .food-card .emoji { font-size: 1.8rem; display: block; margin-bottom: 0.35rem; transition: transform 0.3s; }
+    .food-card .label { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; color: var(--muted); transition: color 0.25s; }
+    .food-card.selected {
+      border-color: var(--gold);
+      background: linear-gradient(145deg, rgba(212, 175, 55, 0.18), rgba(184, 134, 11, 0.1));
+      box-shadow: 0 0 20px var(--gold-glow), inset 0 0 12px rgba(212, 175, 55, 0.08);
+    }
+    .food-card.selected .emoji { transform: scale(1.15); }
+    .food-card.selected .label { color: var(--gold-light); }
+
+    .btn-register {
+      width: 100%; margin-top: 0.5rem; padding: 1rem 1.5rem; border: none; border-radius: 14px;
+      font-family: inherit; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #1a1408;
+      background: linear-gradient(135deg, #f5e6a3 0%, #d4af37 45%, #b8860b 100%);
+      cursor: pointer; position: relative; overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s; box-shadow: 0 6px 24px var(--gold-glow);
+    }
+    .btn-register::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
+      transform: translateX(-100%); transition: transform 0.6s;
+    }
+    .btn-register:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 32px var(--gold-glow); }
+    .btn-register:hover:not(:disabled)::before { transform: translateX(100%); }
+    .btn-register:active:not(:disabled) { transform: translateY(0); }
+    .btn-register:disabled { opacity: 0.7; cursor: not-allowed; }
+    .btn-register .spinner {
+      display: none; width: 20px; height: 20px;
+      border: 2.5px solid rgba(26,20,8,0.3); border-top-color: #1a1408;
+      border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto;
+    }
+    .btn-register.loading .btn-text { display: none; }
+    .btn-register.loading .spinner { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .message {
+      display: none; text-align: center; padding: 1.5rem 1rem; border-radius: 14px;
+      margin-top: 0.5rem; animation: fadeUp 0.5s ease-out;
+    }
+    .message.success {
+      display: block; background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.35); color: var(--success);
+    }
+    .message.error {
+      display: block; background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.35); color: var(--error);
+    }
+    .message .icon { font-size: 2.4rem; display: block; margin-bottom: 0.6rem; }
+    .message h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; margin-bottom: 0.35rem; color: inherit; }
+    .message p { font-size: 0.9rem; opacity: 0.9; line-height: 1.45; }
+
+    footer {
+      text-align: center; margin-top: 2rem; font-size: 0.75rem; color: #555;
+      animation: fadeUp 1s ease-out 0.3s both;
+    }
+    footer span { color: var(--gold-dark); }
+    .form-hidden { display: none; }
+
+    @media (max-width: 380px) {
+      .container { padding: 1.5rem 1rem 2.5rem; }
+      .card { padding: 1.4rem 1.15rem; }
+      .food-card { padding: 0.95rem 0.5rem; }
+      .food-card .emoji { font-size: 1.55rem; }
+    }
+    @media (min-width: 600px) {
+      .container { padding-top: 3rem; padding-bottom: 4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <div class="particles" id="particles"></div>
+
+  <div class="container">
+    <header>
+      <div class="badge">College Registration</div>
+      <h1>🎉 FRESHERS PARTY 2026 🎉</h1>
+      <p class="subheading">Welcome to the Celebration!</p>
+      <div class="divider"></div>
+    </header>
+
+    <div class="card">
+      <form id="regForm" name="regForm" novalidate>
+        <div class="form-group">
+          <label for="name">Student Name <span class="req">*</span></label>
+          <input type="text" id="name" name="Name" placeholder="Enter your full name" required autocomplete="name" />
+        </div>
+
+        <div class="form-group">
+          <label for="roll">Roll Number <span class="req">*</span></label>
+          <input type="text" id="roll" name="RollNumber" placeholder="Enter your roll number" required autocomplete="off" />
+        </div>
+
+        <div class="form-group">
+          <label>Food Preference <span class="req">*</span></label>
+          <div class="food-options">
+            <label class="food-card" id="card-veg">
+              <input type="radio" name="FoodPreference" value="Veg" required />
+              <span class="emoji">🥗</span>
+              <span class="label">VEG</span>
+            </label>
+            <label class="food-card" id="card-nonveg">
+              <input type="radio" name="FoodPreference" value="Non-Veg" required />
+              <span class="emoji">🍗</span>
+              <span class="label">NON-VEG</span>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-register" id="submitBtn">
+          <span class="btn-text">Register Now</span>
+          <span class="spinner"></span>
+        </button>
+      </form>
+
+      <div class="message success" id="successMsg">
+        <span class="icon">✨</span>
+        <h3>Registration Successful!</h3>
+        <p>You’re all set for the Freshers Party 2026.<br>See you on the dance floor!</p>
+      </div>
+
+      <div class="message error" id="errorMsg">
+        <span class="icon">⚠️</span>
+        <h3>Something went wrong</h3>
+        <p id="errorText">Please try again in a moment.</p>
+      </div>
+    </div>
+
+    <footer>
+      Made with <span>♥</span> for Freshers Party 2026
+    </footer>
+  </div>
+
+  <script>
+    // ========== CONFIGURATION ==========
+    // Replace this with your Google Apps Script Web App URL after deploying
+    const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+    // ==================================
+
+    (function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.animationDelay = (Math.random() * 10) + 's';
+        p.style.animationDuration = (8 + Math.random() * 8) + 's';
+        p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+        container.appendChild(p);
+      }
+    })();
+
+    const foodCards = document.querySelectorAll('.food-card');
+    foodCards.forEach(card => {
+      card.addEventListener('click', () => {
+        foodCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        card.querySelector('input').checked = true;
+      });
+    });
+
+    const form = document.getElementById('regForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMsg = document.getElementById('successMsg');
+    const errorMsg = document.getElementById('errorMsg');
+    const errorText = document.getElementById('errorText');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = form.Name.value.trim();
+      const roll = form.RollNumber.value.trim();
+      const food = form.FoodPreference.value;
+
+      if (!name || !roll || !food) {
+        showError('Please fill all required fields.');
+        return;
+      }
+
+      if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+        showSuccess();
+        console.warn('Demo mode: Replace SCRIPT_URL with your real Google Apps Script URL.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.classList.add('loading');
+      errorMsg.style.display = 'none';
+
+      try {
+        const formData = new FormData(form);
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors'
+        });
+        showSuccess();
+      } catch (err) {
+        console.error(err);
+        showError('Network error. Please check your connection and try again.');
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+      }
+    });
+
+    function showSuccess() {
+      form.classList.add('form-hidden');
+      successMsg.style.display = 'block';
+      errorMsg.style.display = 'none';
+    }
+
+    function showError(msg) {
+      errorText.textContent = msg;
+      errorMsg.style.display = 'block';
+      successMsg.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
